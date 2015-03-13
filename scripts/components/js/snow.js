@@ -5,12 +5,13 @@
     12/22/2014
 
     Did you know no two snowflates are the same?
+    *also see the stand alone single snoeflake generator at : http://jsfiddle.net/me2loveit2/uvvz0n20/
         
 */
 $(function () {
 	var snowflakeTipCount = 6;
 	if(Modernizr.canvas){
-		var myVar = setInterval(function(){snowflakeTipCount();},1000);
+		var myVar = setInterval(function(){snowflake(snowflakeTipCount);},1000);
 	}else{
 		alert("Please use a browser that supports the canvas element to view this project.");
 	}

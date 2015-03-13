@@ -53,5 +53,3 @@ Temporary Items
 
 # release can be built with grunt copy. No need to track
 release
-bgm
-scripts/js
