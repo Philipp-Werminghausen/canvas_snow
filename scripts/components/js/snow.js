@@ -8,24 +8,31 @@
         
 */
 $(function () {
-	var myVar = setInterval(function(){snow();},1000);
+	var snowflakeTipCount = 6;
+	if(Modernizr.canvas){
+		var myVar = setInterval(function(){snowflakeTipCount();},1000);
+	}else{
+		alert("Please use a browser that supports the canvas element to view this project.");
+	}
 });
-function snow(){
-	snowflake();
-}
-function snowflake(){
+function snowflake(snowflakeTipCount){
+	//only make it now in viewport
 	var width = $('body').width()+200;
 	var height = $('body').height()+200;
-    console.log(width + ' -> width and height -> ' + height);
-	var size = (Math.floor(Math.random()*5)*10)+10;//10, 20, 30 , 40 or 50
-	var speed = (6-(size/10))*10000;
+	//pick a random size between 15 and 45 for this snowflake
+	var size = random(15,45);
+	//choose a speed based on height
+	var speed = ((7-(size/10))+random(.5,1))*5000;
+	//set a random starting point
 	var start_width = Math.floor(Math.random()*(width-size));
 	var start_height = size*-1;
-	$('body').append('<img src="' + getSnowflateURL(size,6) + '" style="width:' + size + 'px;height:' + size + 'px;margin-top:' + start_height + 'px;margin-left:' + start_width + 'px;" class="snowflake start">');
-	animate(height, speed);
+	//inject snowflake into DOM
+	$('body').append('<img src="' + getSnowflateURL(size,snowflakeTipCount) + '" style="width:' + size + 'px;height:' + size + 'px;margin-top:' + start_height + 'px;margin-left:' + start_width + 'px;" class="snowflake start">');
+	//start animating all snowflakes they are not moving yet
+	animateLatestSnowflakes(height, speed);
 }
-function animate(height, speed){
-	$('img.start').removeClass('start').animate({'margin-top':height},speed,function(){$(this).fadeOut(function(){$(this).remove();})});
+function animateLatestSnowflakes(height, speed){
+    $('img.start').removeClass('start').animate({'margin-top':height},speed,function(){$(this).fadeOut(function(){$(this).remove();})}).animateRotate((random(0,1)>.5?random(0,250):random(0,-250)),speed,'linear', function () {});
 }
 function getSnowflateURL(dimension,num){
     var canvas = $('<canvas width="' + dimension + '" height="' + dimension + '">Canvas not supported.</canvas>').appendTo('body').get(0);
